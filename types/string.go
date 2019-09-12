@@ -101,22 +101,6 @@ func (s *String) SafeForPassword() bool {
 	return true
 }
 
-func (s *String) ValidMobileNumber() bool {
-	matched, err := regexp.MatchString(`^\+[\d]+$`, s.strValue)
-	if matched == true && err == nil {
-		return true
-	}
-	return false
-}
-
-func (s *String) ValidIndianMobileNumber() bool {
-	matched, err := regexp.MatchString(`^\+91[9876]+[\d]{9}$`, s.strValue)
-	if matched == true && err == nil {
-		return true
-	}
-	return false
-}
-
 func (s *String) ValidEmail() bool {
 	re := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 
@@ -201,6 +185,18 @@ func (s *String) EndsWith(subString string, caseInsensitive ...interface{}) bool
 	}
 
 	return false
+}
+
+func (s *String) Ltrim() *String {
+	re := regexp.MustCompile(`^\s*`)
+	s.strValue = re.ReplaceAllString(s.strValue, "")
+	return s
+}
+
+func (s *String) Rtrim() *String {
+	re := regexp.MustCompile(`\s*$`)
+	s.strValue = re.ReplaceAllString(s.strValue, "")
+	return s
 }
 
 func (s *String) Trim() *String {
